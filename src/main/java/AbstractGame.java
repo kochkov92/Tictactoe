@@ -8,5 +8,5 @@ public abstract class AbstractGame {
   public abstract GameState getState() {};  //  returns current state
   public abstract int computeWinner() {};  //  returns index of the winner
   
-  //test
+  //test2
 }
