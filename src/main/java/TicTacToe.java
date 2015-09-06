@@ -1,6 +1,4 @@
 public class TicTacToe extends AbstractGame {
-
-    
     
   @Override
   public boolean isOver() {
