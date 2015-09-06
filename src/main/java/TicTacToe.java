@@ -1,6 +1,7 @@
 public class TicTacToe extends AbstractGame {
 
-    
+    //test
+	private GameState board;
     
   @Override
   public boolean isOver() {
