@@ -1,6 +1,6 @@
 //  This is an abstract class for a game with common methods
 public abstract class AbstractGame {
-  GameState state;
+  private GameState state;
 
   public abstract boolean isOver() {};  
   public abstract int whoseTurn() {};  //  returns an index of a player
