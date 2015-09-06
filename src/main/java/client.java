@@ -1,4 +1,4 @@
-//  This is the main class for the lunch
+//  This is the main class for the launch
 public class client {
   public static void main(String[] args) {
     parser = new Parser(args);  //  a class to deal with input params
