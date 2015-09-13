@@ -8,7 +8,6 @@ public class TicTacToeMove extends Move
 		this.player = player;
 		this.x = x;
 		this.y = y;
-		this.
 	}
 	
 	public int getX()

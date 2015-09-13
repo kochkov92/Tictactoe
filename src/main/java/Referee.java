@@ -2,9 +2,9 @@
 public class Referee {
   GameRecorder stats;
 
-  private resetGame() {};  //  reset for a new round
-  private recordTheMove() {};  //  record the move tha player did
-  private collectStats() {};  //  collect info who won, who lost
+  private void resetGame() {};  //  reset for a new round
+  private void recordTheMove() {};  //  record the move tha player did
+  private void collectStats() {};  //  collect info who won, who lost
 
   public Referee(AbstractGame mygame, AbstractPlayer[] players) {};  //  constr
   public void playRound() {};  //  plays one round
