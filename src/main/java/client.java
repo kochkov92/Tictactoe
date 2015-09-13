@@ -9,6 +9,5 @@ public class client {
     //judge.getStatistics(); //  output the results of the tournament
     TicTacToe game = new TicTacToe(3,3);
     System.out.println(game.computeWinner());
-    System.out.println("Fuck eclipse");
   }
 }
