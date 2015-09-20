@@ -1,9 +1,11 @@
 public class TicTacToe extends AbstractGame {
   //test
 	private TicTacToeState board;
+  private int moveNum;
 
   public TicTacToe(int sizeX, int sizeY) {
     this.board = new TicTacToeState(sizeX, sizeY);
+    this.moveNum = 0;
   }
   @Override
   public boolean isOver() {
@@ -13,17 +15,17 @@ public class TicTacToe extends AbstractGame {
 
   @Override
   public int whoseTurn() {
-    return 1;//  whose turn is it??
+    return (moveNum % 2) + 1;  //  index of a player whos turn it is
   }
 
   @Override
-  public GameState getState() {
-    return board;
+  public GameState getState() {  //  returns a board
+    return board.clone();
   }
 
   @Override
   public int computeWinner() {
-    return 1;
+    return whoseTurn();
   }
 
   @Override
