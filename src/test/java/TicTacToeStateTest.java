@@ -16,7 +16,7 @@ public class TicTacToeStateTest
 		TicTacToeState newstate;
 		newstate = mystate.clone();
 		
-		assertTrue(mystate.equal(newstate));
+		assertTrue(mystate.equals(newstate));
 
 	}
 	
@@ -26,8 +26,8 @@ public class TicTacToeStateTest
 		TicTacToeState state1 = new TicTacToeState(3,3);
 		TicTacToeState state2 = new TicTacToeState(3,4);
 		
-		assertFalse(state1.equal(state2));
-		assertFalse(state2.equal(state1));
+		assertFalse(state1.equals(state2));
+		assertFalse(state2.equals(state1));
 	
 	}
 	
@@ -42,8 +42,8 @@ public class TicTacToeStateTest
 		state2.board[0][0] = 1;
 		
 		
-		assertTrue(state1.equal(state2));
-		assertTrue(state2.equal(state1));
+		assertTrue(state1.equals(state2));
+		assertTrue(state2.equals(state1));
 		
 	}
 	

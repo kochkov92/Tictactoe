@@ -1,7 +1,7 @@
 public class TicTacToeMove extends Move
 {
-	int player;
-	int x,y;
+	private int player;
+	private int x,y;
 	
 	public TicTacToeMove(int player, int x, int y)
 	{

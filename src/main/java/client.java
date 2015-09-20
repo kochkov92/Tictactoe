@@ -8,6 +8,6 @@ public class client {
     //judge.tournament(parser.numGames());  //  sample start of N-game tournament
     //judge.getStatistics(); //  output the results of the tournament
     TicTacToe game = new TicTacToe(3,3);
-    System.out.println(game.computeWinner());
+    System.out.println(game.getWinner());
   }
 }

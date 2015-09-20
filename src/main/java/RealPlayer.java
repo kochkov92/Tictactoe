@@ -3,12 +3,7 @@ public class RealPlayer extends AbstractPlayer {
 
   @Override
   public void receiveState(TicTacToeState state) {
-    for (int i = 0; i < state.sizeX; i++) {
-      for (int j =0; j < state.sizeY; j++) {
-        System.out.print(state.board[i][j] + " ");
-      }
-    System.out.print("\n");
-    }
+	  state.print();
   }
 
   @Override
