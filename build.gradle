@@ -5,3 +5,9 @@ task runIt(type: JavaExec) {
   main = 'client'
   classpath = sourceSets.main.runtimeClasspath
 }
+repositories {
+    mavenCentral()
+}
+dependencies {
+  testCompile 'junit:junit:4.12'
+}
