@@ -10,7 +10,7 @@ public class TicTacToe extends AbstractGame
 	{
 		this.state = new TicTacToeState(sizeX, sizeY);
 		this.moveNum = 0;
-		this.winner = 0; // zero for no winner, player id otherwise
+		this.winner = -1; // negative one for no winner, player id otherwise
 	}
 
 	@Override
