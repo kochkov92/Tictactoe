@@ -101,21 +101,34 @@ public class TicTacToe extends AbstractGame
 	private boolean checkVertical(int x, int y)
 	{
 		if (x < 0 || y < 0 || x >= this.state.sizeX
-				|| y >= this.state.sizeY - winningLength + 1)
+				|| y >= this.state.sizeY)
 		{
 			return false;
 		}
 		else
 		{
-			for (int i = 0; i < winningLength; i++)
+		    private int count = 1;
+		    private int i = 1;
+		    while(y+i < this.state.sizeY && board[x][y+i] == board[x][y])
 			{
-				if (this.state.board[x][y + i] != this.state.board[x][y])
-				{
-					return false;
-				}
+			    count++;
+			    i++
 			}
-      
-			return true;
+		    i = 1;
+		    while(y-i >= 0 && board[x][y-i] == board[x][y])
+			{
+			    count++;
+			    i++
+			}
+		    if(count >= winningLength)
+			{
+			    System.out.println("Horizontal");
+			    return true;
+			}
+		    else
+			{
+			    return false;
+			}
 		}
 	}
 	
