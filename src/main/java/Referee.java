@@ -1,9 +1,11 @@
+import java.util.LinkedList;
+
 //  Referee interacts between the given game and players and does statistics
 public class Referee {
   GameRecorder stats;
   private AbstractGame mygame;
   private AbstractPlayer[] players;
-      
+  private LinkedList<Move> moves;
   private void resetGame() {};  //  reset for a new round
   private void recordTheMove(TicTacToeMove move)
     {
@@ -29,6 +31,12 @@ public class Referee {
 	    }
 	System.out.println("winner is " + mygame.getWinner());
     }  //  plays one round
-  public void playTournament(int numGames) {};  //  plays numGames games
+  public void playTournament(int numGames)
+    {
+	for(int i = 0; i < numGames; i++);
+	{
+	    playMatch();
+	}
+    };  //  plays numGames games
   public void getStatistics() {};  //  outputs statistics of Tourn. to SO.
 }
