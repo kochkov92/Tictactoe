@@ -2,7 +2,7 @@ import java.util.Scanner;
 public class RealPlayer extends AbstractPlayer {
 
   @Override
-  public void receiveState(TicTacToeState state) {
+  public void receiveState(GameState state) {
 	  state.print();
   }
 

@@ -11,6 +11,8 @@ public class client {
     AbstractPlayer[] players = new AbstractPlayer[2];
     players[0] = new RealPlayer();
     players[1] = new RealPlayer();
+    judge = new Referee(game, players);
+    judge.playMatch();
     System.out.println(game.getWinner());
   }
 }
