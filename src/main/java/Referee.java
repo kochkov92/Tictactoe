@@ -22,9 +22,9 @@ public class Referee {
   public void playMatch()
     {
 	AbstractPlayer currentPlayer;
-	while(mygame.getWinner() == -1)
+	while(mygame.getWinner() == 0)
 	    {
-		currentPlayer = players[mygame.getTurn()];
+		currentPlayer = players[mygame.getTurn() - 1];//players are 0 and 1, whereas turns are 1 and 2
 		currentPlayer.receiveState(mygame.getState());
 		mygame.update(currentPlayer.getMove());
 		
