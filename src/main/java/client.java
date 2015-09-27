@@ -9,8 +9,9 @@ public class client {
     //judge.getStatistics(); //  output the results of the tournament
     TicTacToe game = new TicTacToe(3,3);
     AbstractPlayer[] players = new AbstractPlayer[2];
-    players[0] = new RealPlayer();
-    players[1] = new RealPlayer();
+    players[0] = new RealPlayer(1);
+    players[1] = new RealPlayer(2);
+
     Referee judge = new Referee(game, players);
     judge.playMatch();
     System.out.println(game.getWinner());
