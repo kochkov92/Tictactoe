@@ -77,6 +77,7 @@ public class TicTacToeState extends GameState
 	@Override
 	public void print()
 	{
+    System.out.print("\n");
 	    for (int i = 0; i < this.sizeX; i++) {
 	        for (int j =0; j < this.sizeY; j++) {
             if (this.board[j][i] == 0) {

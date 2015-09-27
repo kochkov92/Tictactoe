@@ -45,13 +45,14 @@ public class TicTacToe extends AbstractGame
 		}
 		else
 		{
-			for (int i = 0; i < winningLength - 1; i++)
+			for (int i = 0; i < winningLength; i++)
 			{
 				if (this.state.board[x + i][y + i] != this.state.board[x][y])
 				{
 					return false;
 				}
 			}
+      
 			return true;
 		}
 	}
@@ -65,7 +66,7 @@ public class TicTacToe extends AbstractGame
 		}
 		else
 		{
-			for (int i = 0; i < winningLength - 1; i++)
+			for (int i = 0; i < winningLength; i++)
 			{
 				if (this.state.board[x - i][y + i] != this.state.board[x][y])
 				{
@@ -85,13 +86,14 @@ public class TicTacToe extends AbstractGame
 		}
 		else
 		{
-			for (int i = 0; i < winningLength - 1; i++)
+			for (int i = 0; i < winningLength; i++)
 			{
 				if (this.state.board[x + i][y] != this.state.board[x][y])
 				{
 					return false;
 				}
 			}
+
 			return true;
 		}
 	}
@@ -105,13 +107,14 @@ public class TicTacToe extends AbstractGame
 		}
 		else
 		{
-			for (int i = 0; i < winningLength - 1; i++)
+			for (int i = 0; i < winningLength; i++)
 			{
 				if (this.state.board[x][y + i] != this.state.board[x][y])
 				{
 					return false;
 				}
 			}
+      
 			return true;
 		}
 	}
