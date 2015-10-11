@@ -107,18 +107,18 @@ public class TicTacToe extends AbstractGame
 		}
 		else
 		{
-		    private int count = 1;
-		    private int i = 1;
-		    while(y+i < this.state.sizeY && board[x][y+i] == board[x][y])
+		    int count = 1;
+		    int i = 1;
+		    while(y+i < this.state.sizeY && this.state.board[x][y+i] == this.state.board[x][y])
 			{
 			    count++;
-			    i++
+			    i++;
 			}
 		    i = 1;
-		    while(y-i >= 0 && board[x][y-i] == board[x][y])
+		    while(y-i >= 0 && this.state.board[x][y-i] == this.state.board[x][y])
 			{
 			    count++;
-			    i++
+			    i++;
 			}
 		    if(count >= winningLength)
 			{
