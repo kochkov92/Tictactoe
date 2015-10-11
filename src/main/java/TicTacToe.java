@@ -38,64 +38,106 @@ public class TicTacToe extends AbstractGame
 	 */
 	private boolean checkDiagonal(int x, int y)
 	{
-		if (x < 0 || y < 0 || x >= this.state.sizeX - winningLength + 1
-				|| y >= this.state.sizeY - winningLength + 1)
-		{
-			return false;
-		}
-		else
-		{
-			for (int i = 0; i < winningLength; i++)
-			{
-				if (this.state.board[x + i][y + i] != this.state.board[x][y])
-				{
-					return false;
-				}
-			}
-      
-			return true;
-		}
+		if (x < 0 || y < 0 || x >= this.state.sizeX
+        || y >= this.state.sizeY)
+    {
+      return false;
+    }
+    else
+    {
+        int count = 1;
+        int i = 1;
+        while(x + i < this.state.sizeX && y + i < this.state.sizeY &&
+          this.state.board[x + i][y + i] == this.state.board[x][y] ) {
+          count++;
+          i++;
+          System.out.println(i);
+      }
+        i = 1;
+        while(x - i >= 0 && y - i >= 0 && 
+          this.state.board[x - i][y - i] == this.state.board[x][y])
+      {
+          count++;
+          i++;
+      }
+        if(count >= winningLength)
+      {
+          System.out.println("Diagonal win");
+          return true;
+      }
+        else
+      {
+          return false;
+      }
+    }
 	}
 	
 	private boolean checkAntiDiagonal(int x, int y)
 	{
-		if (x < winningLength -1 || y < 0 || x >= this.state.sizeX
-				|| y >= this.state.sizeY - winningLength + 1)
-		{
-			return false;
-		}
-		else
-		{
-			for (int i = 0; i < winningLength; i++)
-			{
-				if (this.state.board[x - i][y + i] != this.state.board[x][y])
-				{
-					return false;
-				}
-			}
-			return true;
-		}
+		if (x < 0 || y < 0 || x >= this.state.sizeX
+        || y >= this.state.sizeY)
+    {
+      return false;
+    }
+    else
+    {
+        int count = 1;
+        int i = 1;
+        while(x + i < this.state.sizeX && y - i > 0 && 
+          this.state.board[x + i][y - i] == this.state.board[x][y]) {
+          count++;
+          i++;
+      }
+        i = 1;
+        while(x - i >= 0 && y + i < this.state.sizeY && 
+          this.state.board[x - i][y + i] == this.state.board[x][y])
+      {
+          count++;
+          i++;
+      }
+        if(count >= winningLength)
+      {
+          System.out.println("AntiDiagonal win");
+          return true;
+      }
+        else
+      {
+          return false;
+      }
+    }
 	}
 	
-	private boolean checkHorizontal(int x, int y)
-	{
-		if (x < 0 || y < 0 || x >= this.state.sizeX - winningLength + 1
-				|| y >= this.state.sizeY)
-		{
-			return false;
-		}
-		else
-		{
-			for (int i = 0; i < winningLength; i++)
-			{
-				if (this.state.board[x + i][y] != this.state.board[x][y])
-				{
-					return false;
-				}
-			}
-
-			return true;
-		}
+	private boolean checkHorizontal(int x, int y) {
+    if (x < 0 || y < 0 || x >= this.state.sizeX
+        || y >= this.state.sizeY)
+    {
+      return false;
+    }
+    else
+    {
+        int count = 1;
+        int i = 1;
+        while(x+i < this.state.sizeX && this.state.board[x + i][y] == 
+          this.state.board[x][y]) {
+          count++;
+          i++;
+      }
+        i = 1;
+        while(x - i >= 0 && this.state.board[x - i][y] == this.state.board[x][y])
+      {
+          count++;
+          i++;
+      }
+        if(count >= winningLength)
+      {
+          System.out.println("Horizontal win");
+          return true;
+      }
+        else
+      {
+          return false;
+      }
+    }
 	}
 	
 	private boolean checkVertical(int x, int y)
@@ -109,8 +151,8 @@ public class TicTacToe extends AbstractGame
 		{
 		    int count = 1;
 		    int i = 1;
-		    while(y+i < this.state.sizeY && this.state.board[x][y+i] == this.state.board[x][y])
-			{
+		    while(y+i < this.state.sizeY && this.state.board[x][y+i] == 
+          this.state.board[x][y]) {
 			    count++;
 			    i++;
 			}
@@ -122,7 +164,7 @@ public class TicTacToe extends AbstractGame
 			}
 		    if(count >= winningLength)
 			{
-			    System.out.println("Horizontal");
+			    System.out.println("Vertical win");
 			    return true;
 			}
 		    else
