@@ -62,9 +62,13 @@ public class TicTacToeTest
 		TicTacToeMove move5 = new TicTacToeMove(1,2,0);
 		
 		game.update(move1);
+		assertTrue(game.getWinner() == 0);
 		game.update(move2);
+		assertTrue(game.getWinner() == 0);
 		game.update(move3);
+		assertTrue(game.getWinner() == 0);
 		game.update(move4);
+		assertTrue(game.getWinner() == 0);
 		game.update(move5);
 		
 		assertTrue(game.getWinner() == 1);
@@ -84,9 +88,13 @@ public class TicTacToeTest
 		TicTacToeMove move5 = new TicTacToeMove(1,0,2);
 		
 		game.update(move1);
+		assertTrue(game.getWinner() == 0);
 		game.update(move2);
+		assertTrue(game.getWinner() == 0);
 		game.update(move3);
+		assertTrue(game.getWinner() == 0);
 		game.update(move4);
+		assertTrue(game.getWinner() == 0);
 		game.update(move5);
 		
 		assertTrue(game.getWinner() == 1);
@@ -108,10 +116,15 @@ public class TicTacToeTest
 		TicTacToeMove move6 = new TicTacToeMove(2,2,2);
 		
 		game.update(move1);
+		assertTrue(game.getWinner() == 0);
 		game.update(move2);
+		assertTrue(game.getWinner() == 0);
 		game.update(move3);
+		assertTrue(game.getWinner() == 0);
 		game.update(move4);
+		assertTrue(game.getWinner() == 0);
 		game.update(move5);
+		assertTrue(game.getWinner() == 0);
 		game.update(move6);
 		
 		assertTrue(game.getWinner() == 2);
