@@ -51,7 +51,6 @@ public class TicTacToe extends AbstractGame
           this.state.board[x + i][y + i] == this.state.board[x][y] ) {
           count++;
           i++;
-          System.out.println(i);
       }
         i = 1;
         while(x - i >= 0 && y - i >= 0 && 
@@ -83,7 +82,7 @@ public class TicTacToe extends AbstractGame
     {
         int count = 1;
         int i = 1;
-        while(x + i < this.state.sizeX && y - i > 0 && 
+        while(x + i < this.state.sizeX && y - i >= 0 && 
           this.state.board[x + i][y - i] == this.state.board[x][y]) {
           count++;
           i++;
@@ -221,6 +220,7 @@ public class TicTacToe extends AbstractGame
 			if (this.isOver(move))
 			{
 				this.winner = this.getTurn();
+        this.state.print();
 			}
 			this.moveNum++;
 			return 0;
