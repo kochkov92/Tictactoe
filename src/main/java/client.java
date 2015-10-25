@@ -15,5 +15,7 @@ public class client {
     Referee judge = new Referee(game, players);
     judge.playMatch();
     System.out.println(game.getWinner());
+    PerfectLearner brian = new PerfectLearner(1);
+    brian.saveBrain();
   }
 }
