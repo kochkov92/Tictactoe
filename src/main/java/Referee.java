@@ -7,30 +7,34 @@ public class Referee {
   private AbstractPlayer[] players;
   private LinkedList<Move> moves;
   private void resetGame() {};  //  reset for a new round
-  private void recordTheMove(TicTacToeMove move)
-    {
-       
-    };  //  record the move tha player did
+  private void recordTheMove(TicTacToeMove move){};
+  private int winnerOne;
   private void collectStats() {};  //  collect info who won, who lost
 
-  public Referee(AbstractGame mygame, AbstractPlayer[] players)
-    {
-	this.mygame = mygame;
-	this.players = players;
+  public Referee(AbstractGame mygame, AbstractPlayer[] players) {
+    winnerOne = 0;
+  	this.mygame = mygame;
+  	this.players = players;
   
-    };  //  constructor
+  };  //  constructor
   public void playMatch()
     {
 	AbstractPlayer currentPlayer;
-	while(mygame.getWinner() == 0)
-	    {
-		currentPlayer = players[mygame.getTurn() - 1];//players are 0 and 1, whereas turns are 1 and 2
-		currentPlayer.receiveState(mygame.getState());
-		mygame.update(currentPlayer.getMove());
-		
-	    }
+	while(mygame.getWinner() == 0) {
+      System.out.println("waiting for");
+  		currentPlayer = players[mygame.getTurn() - 1];
+  		currentPlayer.receiveState(mygame.getState());
+  		mygame.update(currentPlayer.getMove());
+	  }
+    if (mygame.getWinner()==1) {
+      winnerOne++;
+    }
+    players[0].receiveResult(mygame.getWinner());
+    players[1].receiveResult(mygame.getWinner());
+
 	System.out.println("winner is " + mygame.getWinner());
     }  //  plays one round
+       //  
   public void playTournament(int numGames)
     {
 	for(int i = 0; i < numGames; i++);

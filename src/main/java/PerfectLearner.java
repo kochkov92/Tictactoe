@@ -1,23 +1,36 @@
 import java.io.*;
+import java.util.*;
 
 public class PerfectLearner extends AbstractPlayer
 {
   TicTacToeMove nextMove;
   double[][] qValues;
+  int[][] qUpdateNum;
   double learningRate;
   double discountFactor;
   int previousIndex;
   int previousMove;
+  boolean isLearning;
+  int moveNumber;
+  double winScore;
+  double loseScore;
+  double drawScore;
 
   int size = (int) Math.pow(3,9);
     
   public PerfectLearner(int playerNumber) {
+    qUpdateNum = new int[size][9];
     qValues = new double[size][9];
     for (int i = 0; i < size; i++) {
       for (int j = 0; j < 9; j++) {
         qValues[i][j] = 0.;
+        qUpdateNum[i][j] = 0;
       }
     }
+    isLearning = true;
+    winScore=10;
+    loseScore=-10;
+    drawScore=0;
   }
 
   //  set learning parameteres
@@ -77,19 +90,73 @@ public class PerfectLearner extends AbstractPlayer
 	  e.printStackTrace();
       }
   }
-
   
     public void loadBrain(){}
-    public void play_Learn(){}
 
   @Override
   public Move getMove(){
-      return null;
+      return nextMove;
+  }
+
+  private double exploreScore(int leastExplored) {
+    return 1./(leastExplored+1);
+  }
+
+  private void bestMove(int index) {
+    double bestQval=qValues[index][0];
+    int leastExplored = 0;
+    int expMoveIndex=0;
+    int qMoveIndex=0;
+    for (int i = 0; i < 9; i++) {
+      if (qUpdateNum[index][i] < leastExplored) {
+        leastExplored = qUpdateNum[index][i];
+        expMoveIndex = i;
+      }
+      if (qValues[index][i] > bestQval) {
+        bestQval = qValues[index][i];
+        qMoveIndex = i;
+      }
+    }
+    TicTacToeMove thisMove;
+    Random rand = new Random();
+    if (rand.nextDouble() < exploreScore(leastExplored)) {
+      thisMove = new TicTacToeMove(this.playerNumber,expMoveIndex/3,expMoveIndex%3);
+    }
+    else {
+      thisMove = new TicTacToeMove(this.playerNumber,qMoveIndex/3,qMoveIndex%3);
+    }
+    nextMove = thisMove;
   }
 
   @Override
   public void newMatch(){}
 
   @Override
-  public void receiveState(GameState state){}
+  public void receiveState(GameState state) {
+    if(state instanceof TicTacToeState)
+    {
+      TicTacToeState ticState = (TicTacToeState)state;
+    
+      if ((moveNumber > 1) && isLearning) {
+        updateQ(ticState);
+      }
+    bestMove(findIndex(ticState));
+    }
+  }
+
+  @Override
+  public void receiveResult(int result) {
+    if (result == playerNumber) {
+      qValues[previousIndex][previousMove] = (qValues[previousIndex][previousMove] +
+       winScore);
+    }
+    if (result == -1) {
+      qValues[previousIndex][previousMove] = (qValues[previousIndex][previousMove] +
+        drawScore);
+    }
+    else {
+      qValues[previousIndex][previousMove] = (qValues[previousIndex][previousMove] +
+        loseScore);
+    }
+  }
 }

@@ -178,7 +178,12 @@ public class TicTacToe extends AbstractGame
 	{
 		int x = move.getX();
 		int y = move.getY();
-		
+		if ((moveNum == 9) && !(this.checkAntiDiagonal(x, y) || this.checkDiagonal(x, y)
+        || this.checkHorizontal(x, y) || this.checkVertical(x, y))) {
+      winner = -1;
+      return true;
+    }
+
 		return (this.checkAntiDiagonal(x, y) || this.checkDiagonal(x, y)
 				|| this.checkHorizontal(x, y) || this.checkVertical(x, y));
 	}

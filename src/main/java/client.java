@@ -10,12 +10,12 @@ public class client {
     TicTacToe game = new TicTacToe(3,3);
     AbstractPlayer[] players = new AbstractPlayer[2];
     players[0] = new RandomPlayer(1);
-    players[1] = new RandomPlayer(2); //RealPlayer(2); //
+    players[1] = new PerfectLearner(2); //RealPlayer(2); //
 
     Referee judge = new Referee(game, players);
     judge.playMatch();
     System.out.println(game.getWinner());
-    PerfectLearner brian = new PerfectLearner(1);
-    brian.saveBrain();
+    //PerfectLearner brian = new PerfectLearner(1);
+    //brian.saveBrain();
   }
 }

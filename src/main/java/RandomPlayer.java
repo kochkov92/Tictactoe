@@ -19,9 +19,9 @@ public class RandomPlayer extends AbstractPlayer
 			
 			LinkedList<TicTacToeMove> possibleMoves = new LinkedList<TicTacToeMove>();
 				
-			for(int i =0;i<ticState.sizeX;i++)
+			for(int i = 0; i < ticState.sizeX;i++)
 			{
-				for(int j=0;j<ticState.sizeY;j++)
+				for(int j = 0; j < ticState.sizeY;j++)
 				{
 					if(ticState.board[i][j] == 0)
 					{
