@@ -31,6 +31,8 @@ public class PerfectLearner extends AbstractPlayer
     winScore=10;
     loseScore=-10;
     drawScore=0;
+    learningRate=0.3;
+    discountFactor=0.4;
   }
 
   //  set learning parameteres
@@ -57,7 +59,7 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   private double reward(int previousIndex) {
-    return -0.01;
+    return -0.1;
   }
 
   public double maxQDiff(TicTacToeState state, int previousIndex,
@@ -98,7 +100,7 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   private double exploreScore(int leastExplored) {
-    return 1./(leastExplored+1);
+    return 1./(leastExplored+3);
   }
 
   private void bestMove(int index) {
@@ -116,14 +118,21 @@ public class PerfectLearner extends AbstractPlayer
         qMoveIndex = i;
       }
     }
+    previousIndex = index;
     TicTacToeMove thisMove;
     Random rand = new Random();
     if (rand.nextDouble() < exploreScore(leastExplored)) {
+      previousMove=expMoveIndex;
+      qUpdateNum[index][expMoveIndex]++;
       thisMove = new TicTacToeMove(this.playerNumber,expMoveIndex/3,expMoveIndex%3);
     }
     else {
+      previousMove=qMoveIndex;
+      System.out.println("winner is ");
+      qUpdateNum[index][qMoveIndex]++;
       thisMove = new TicTacToeMove(this.playerNumber,qMoveIndex/3,qMoveIndex%3);
     }
+    moveNumber++;
     nextMove = thisMove;
   }
 
@@ -135,11 +144,14 @@ public class PerfectLearner extends AbstractPlayer
     if(state instanceof TicTacToeState)
     {
       TicTacToeState ticState = (TicTacToeState)state;
-    
       if ((moveNumber > 1) && isLearning) {
         updateQ(ticState);
       }
-    bestMove(findIndex(ticState));
+      previousIndex = findIndex(ticState);
+      bestMove(findIndex(ticState));
+      if(moveNumber==100) {
+        saveBrain();
+      }
     }
   }
 

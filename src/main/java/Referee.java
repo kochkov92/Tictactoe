@@ -21,7 +21,6 @@ public class Referee {
     {
 	AbstractPlayer currentPlayer;
 	while(mygame.getWinner() == 0) {
-      System.out.println("waiting for");
   		currentPlayer = players[mygame.getTurn() - 1];
   		currentPlayer.receiveState(mygame.getState());
   		mygame.update(currentPlayer.getMove());
