@@ -73,6 +73,7 @@ public class PerfectLearner extends AbstractPlayer
 	    }
 	    bw.write("\n");
 	  }
+	  bw.close;
       } catch (IOException e){
 	  e.printStackTrace();
       }
