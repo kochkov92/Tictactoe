@@ -4,6 +4,7 @@ apply plugin: 'eclipse'
 task runIt(type: JavaExec) {
   main = 'client'
   classpath = sourceSets.main.runtimeClasspath
+  standardInput = System.in
 }
 repositories {
     mavenCentral()
