@@ -21,7 +21,7 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   //  set learning parameteres
-  public void setParameters(double learning_rate, discount_factor) {
+  public void setParameters(double learning_rate, double discount_factor) {
     learningRate = learning_rate;
     discountFactor = discount_factor;
   }
@@ -30,7 +30,7 @@ public class PerfectLearner extends AbstractPlayer
   public int findIndex(TicTacToeState state) {
     int index = 0;
     for (int i = 0; i < state.sizeX; i++) {
-      for (int j = 0; j < state.stateY; j++) {
+      for (int j = 0; j < state.sizeY; j++) {
         index = 3 * index + state.board[i][j];
       }
     }
@@ -43,7 +43,7 @@ public class PerfectLearner extends AbstractPlayer
         maxQDiff(state, previousIndex, previousMove));
   }
 
-  private double reward(previousIndex) {
+  private double reward(int previousIndex) {
     return -0.01;
   }
 
@@ -52,10 +52,10 @@ public class PerfectLearner extends AbstractPlayer
     double best = qValues[findIndex(state)][0] -
       qValues[previousIndex][previousMove];
     for (int i = 0; i < 9; i++) {
-      if ((qValues[findIndex(state)[i]] - 
+      if ((qValues[findIndex(state)][i] - 
         qValues[previousIndex][previousMove]) > best) {
-        best = (qValues[findIndex(state)[i]] - 
-        qValues[previousIndex][previousMove]);
+        best = (qValues[findIndex(state)][i] - 
+               qValues[previousIndex][previousMove]);
       }
     }
     return best;
