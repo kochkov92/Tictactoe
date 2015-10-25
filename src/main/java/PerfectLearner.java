@@ -67,20 +67,18 @@ public class PerfectLearner extends AbstractPlayer
 	  FileWriter fw = new FileWriter(file.getAbsoluteFile());
 	  BufferedWriter bw = new BufferedWriter(fw);
 	  for (int i = 0; i < size; i++){
-	    bw.write(i);
-	    for (int j = 0; j < 9; j++){
-		    bw.write("," + qValues[i][j]);
+	    for (int j = 0; j < 8; j++){
+	        bw.write(qValues[i][j]+",");
 	    }
-	    bw.write("\n");
+	    bw.write(qValues[i][8]+"\n");
 	  }
-	  bw.close;
+	  bw.close();
       } catch (IOException e){
 	  e.printStackTrace();
       }
   }
-
-  
     public void loadBrain(){}
+    
     public void play_Learn(){}
 
   @Override
