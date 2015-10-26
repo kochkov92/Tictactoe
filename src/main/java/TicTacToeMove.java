@@ -24,4 +24,8 @@ public class TicTacToeMove extends Move
 	{
 		return player;
 	}
+        public void printMove()
+    {
+	System.out.println(player + "," + x + "," + y);
+    }
 }

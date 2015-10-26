@@ -41,9 +41,10 @@ public class RandomPlayer extends AbstractPlayer
 	}
 
 	@Override
-	public Move getMove()
+	public TicTacToeMove getMove()
 	{
-		return nextMove;
+	    //nextMove.printMove();
+	    return nextMove;
 	}
 
 	@Override

@@ -33,6 +33,7 @@ public class PerfectLearner extends AbstractPlayer
     drawScore=0;
     learningRate=0.3;
     discountFactor=0.4;
+    this.playerNumber=playerNumber;
   }
 
   //  set learning parameteres
@@ -53,9 +54,17 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   public void updateQ(TicTacToeState state) {
-    qValues[previousIndex][previousMove] = qValues[previousIndex][previousMove]
+      if (findIndex(state) == previousIndex){	
+	  qValues[previousIndex][previousMove] = -1000;
+	 }
+      else
+	 {
+	    qValues[previousIndex][previousMove] = qValues[previousIndex][previousMove]
       + learningRate * ( reward(previousIndex) + discountFactor * 
         maxQDiff(state, previousIndex, previousMove));
+	 }
+      //System.out.println("currentState index: " + findIndex(state));
+      //System.out.println("previousState index: " + previousIndex);
   }
 
   private double reward(int previousIndex) {
@@ -92,10 +101,21 @@ public class PerfectLearner extends AbstractPlayer
 	  e.printStackTrace();
       }
   }  
-    public void loadBrain(){}
+    public void loadBrain() throws FileNotFoundException{
+	Scanner scanner = new Scanner(new File("brain.csv"));
+	scanner.useDelimiter(",");
+	for (int i = 0; i < size; i++){
+	    for (int j = 0; j < 9; j++){
+		while (scanner.hasNext())
+		    qValues[i][j] = Double.parseDouble(scanner.next());
+	    }
+	}
+	scanner.close();
+    }
 
   @Override
-  public Move getMove(){
+  public TicTacToeMove getMove(){
+      //nextMove.printMove();
       return nextMove;
   }
 
@@ -128,7 +148,7 @@ public class PerfectLearner extends AbstractPlayer
     }
     else {
       previousMove=qMoveIndex;
-      System.out.println("winner is ");
+      //System.out.println("winner is ");
       qUpdateNum[index][qMoveIndex]++;
       thisMove = new TicTacToeMove(this.playerNumber,qMoveIndex/3,qMoveIndex%3);
     }
@@ -149,9 +169,6 @@ public class PerfectLearner extends AbstractPlayer
       }
       previousIndex = findIndex(ticState);
       bestMove(findIndex(ticState));
-      if(moveNumber==100) {
-        saveBrain();
-      }
     }
   }
 
@@ -170,4 +187,5 @@ public class PerfectLearner extends AbstractPlayer
         loseScore);
     }
   }
+    
 }

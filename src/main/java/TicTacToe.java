@@ -13,7 +13,14 @@ public class TicTacToe extends AbstractGame
 		this.winner = 0; // zero for no winner, player id otherwise
     this.winningLength = 3;
 	}
-
+    
+        @Override
+        public void reset(){
+	    state.reset();
+	    this.moveNum = 0;
+	    this.winner = 0;
+	}
+	
 	@Override
 	public boolean isOver(Move move)
 	{
@@ -225,7 +232,7 @@ public class TicTacToe extends AbstractGame
 			if (this.isOver(move))
 			{
 				this.winner = this.getTurn();
-        this.state.print();
+				//this.state.print();
 			}
 			this.moveNum++;
 			return 0;

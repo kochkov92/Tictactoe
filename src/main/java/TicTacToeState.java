@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class TicTacToeState extends GameState
 {
 	public int[][]	board;
@@ -20,6 +22,7 @@ public class TicTacToeState extends GameState
 				board[i][j] = 0;
 			}
 		}
+		//System.out.println("Reset successful");
 	}
 
 	@Override

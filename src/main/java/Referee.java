@@ -1,4 +1,4 @@
-import java.util.LinkedList;
+import java.util.*;
 
 //  Referee interacts between the given game and players and does statistics
 public class Referee {
@@ -30,13 +30,13 @@ public class Referee {
     }
     players[0].receiveResult(mygame.getWinner());
     players[1].receiveResult(mygame.getWinner());
-
-	System.out.println("winner is " + mygame.getWinner());
+    System.out.println("winner is " + mygame.getWinner());
+    mygame.reset();
     }  //  plays one round
        //  
   public void playTournament(int numGames)
     {
-	for(int i = 0; i < numGames; i++);
+	for(int i = 0; i < numGames; i++)
 	{
 	    playMatch();
 	}
