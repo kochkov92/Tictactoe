@@ -28,8 +28,8 @@ public class PerfectLearner extends AbstractPlayer
       }
     }
     isLearning = true;
-    winScore=10;
-    loseScore=-10;
+    winScore=100;
+    loseScore=-10000;
     drawScore=0;
     learningRate=0.3;
     discountFactor=0.4;
@@ -54,6 +54,7 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   public void updateQ(TicTacToeState state) {
+      //if move is illegal and same state is returned
       if (findIndex(state) == previousIndex){	
 	  qValues[previousIndex][previousMove] = -1000;
 	 }
@@ -71,11 +72,13 @@ public class PerfectLearner extends AbstractPlayer
     return -0.1;
   }
 
+
+    //finds maximum distance between qValue(current state) and qValue[previous_state][i] where i is the 9 possible moves
   public double maxQDiff(TicTacToeState state, int previousIndex,
     int previousMove) {
     double best = qValues[findIndex(state)][0] -
       qValues[previousIndex][previousMove];
-    for (int i = 0; i < 9; i++) {
+    for (int i = 1; i < 9; i++) {
       if ((qValues[findIndex(state)][i] - 
         qValues[previousIndex][previousMove]) > best) {
         best = (qValues[findIndex(state)][i] - 
@@ -125,10 +128,10 @@ public class PerfectLearner extends AbstractPlayer
 
   private void bestMove(int index) {
     double bestQval=qValues[index][0];
-    int leastExplored = 0;
+    int leastExplored = qUpdateNum[index][0];
     int expMoveIndex=0;
     int qMoveIndex=0;
-    for (int i = 0; i < 9; i++) {
+    for (int i = 1; i < 9; i++) {
       if (qUpdateNum[index][i] < leastExplored) {
         leastExplored = qUpdateNum[index][i];
         expMoveIndex = i;
@@ -138,7 +141,6 @@ public class PerfectLearner extends AbstractPlayer
         qMoveIndex = i;
       }
     }
-    previousIndex = index;
     TicTacToeMove thisMove;
     Random rand = new Random();
     if (rand.nextDouble() < exploreScore(leastExplored)) {
@@ -154,6 +156,7 @@ public class PerfectLearner extends AbstractPlayer
     }
     moveNumber++;
     nextMove = thisMove;
+    previousIndex = index;
   }
 
   @Override
@@ -175,16 +178,13 @@ public class PerfectLearner extends AbstractPlayer
   @Override
   public void receiveResult(int result) {
     if (result == playerNumber) {
-      qValues[previousIndex][previousMove] = (qValues[previousIndex][previousMove] +
-       winScore);
+	qValues[previousIndex][previousMove] = winScore); //set winScore to avoid overflow
     }
     if (result == -1) {
-      qValues[previousIndex][previousMove] = (qValues[previousIndex][previousMove] +
-        drawScore);
+      qValues[previousIndex][previousMove] = drawScore);
     }
     else {
-      qValues[previousIndex][previousMove] = (qValues[previousIndex][previousMove] +
-        loseScore);
+      qValues[previousIndex][previousMove] = loseScore);
     }
   }
     
