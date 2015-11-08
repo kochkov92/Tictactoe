@@ -11,7 +11,7 @@ public class TicTacToe extends AbstractGame
 		this.state = new TicTacToeState(sizeX, sizeY);
 		this.moveNum = 0;
 		this.winner = 0; // zero for no winner, player id otherwise
-    this.winningLength = 3;
+		this.winningLength = 3;
 	}
     
         @Override
@@ -103,7 +103,7 @@ public class TicTacToe extends AbstractGame
       }
         if(count >= winningLength)
       {
-          System.out.println("AntiDiagonal win");
+          //System.out.println("AntiDiagonal win");
           return true;
       }
         else
@@ -136,7 +136,7 @@ public class TicTacToe extends AbstractGame
       }
         if(count >= winningLength)
       {
-          System.out.println("Horizontal win");
+          //System.out.println("Horizontal win");
           return true;
       }
         else
@@ -170,7 +170,7 @@ public class TicTacToe extends AbstractGame
 			}
 		    if(count >= winningLength)
 			{
-			    System.out.println("Vertical win");
+			    //System.out.println("Vertical win");
 			    return true;
 			}
 		    else
@@ -209,8 +209,11 @@ public class TicTacToe extends AbstractGame
 
 	@Override
 	public int getWinner()
-	{ //
-		return winner;
+	{
+	    //System.out.println("winner: " + winner);
+	    //System.out.println("mov Num: " + moveNum);
+	    return winner;
+	   
 	}
 
 	@Override

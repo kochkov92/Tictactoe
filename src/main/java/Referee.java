@@ -10,6 +10,8 @@ public class Referee {
   private void recordTheMove(TicTacToeMove move){};
   private int winnerOne;
   private void collectStats() {};  //  collect info who won, who lost
+    private int player1WinCount = 0;
+    private int player2WinCount = 0;
 
   public Referee(AbstractGame mygame, AbstractPlayer[] players) {
     winnerOne = 0;
@@ -20,17 +22,26 @@ public class Referee {
   public void playMatch()
     {
 	AbstractPlayer currentPlayer;
-	while(mygame.getWinner() == 0) {
+	do {
   		currentPlayer = players[mygame.getTurn() - 1];
-  		currentPlayer.receiveState(mygame.getState());
+		currentPlayer.receiveState(mygame.getState());
   		mygame.update(currentPlayer.getMove());
-	  }
+	}while(!mygame.isOver(currentPlayer.getMove()));
     if (mygame.getWinner()==1) {
       winnerOne++;
     }
     players[0].receiveResult(mygame.getWinner());
     players[1].receiveResult(mygame.getWinner());
     System.out.println("winner is " + mygame.getWinner());
+    if (mygame.getWinner() == 1)
+	{
+	    player1WinCount++;
+	}
+    else if (mygame.getWinner() == 2)
+	{
+	    player2WinCount++;
+	}
+    
     mygame.reset();
     }  //  plays one round
        //  
@@ -38,8 +49,16 @@ public class Referee {
     {
 	for(int i = 0; i < numGames; i++)
 	{
+	    System.out.println("Match number: " + i);
 	    playMatch();
 	}
+	double player1WinRate = 1.0*player1WinCount/numGames;
+	double player2WinRate = 1.0*player2WinCount/numGames;
+	double tieRate = 1.0*(numGames - player1WinCount - player2WinCount)/numGames;
+	System.out.println("Player 1 won " + player1WinRate + " of " + numGames);
+	System.out.println("Player 2 won " + player2WinRate + " of " + numGames);
+	System.out.println("Tie rate: " + tieRate);
+	
     };  //  plays numGames games
   public void getStatistics() {};  //  outputs statistics of Tourn. to SO.
 }

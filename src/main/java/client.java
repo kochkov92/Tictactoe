@@ -13,7 +13,7 @@ public class client {
     players[1] = new PerfectLearner(2); //RealPlayer(2); //
 
     Referee judge = new Referee(game, players);
-    judge.playTournament(1000);
+    judge.playTournament(100000);
     System.out.println(game.getWinner());
     //PerfectLearner brian = new PerfectLearner(1);
     //brian.saveBrain();

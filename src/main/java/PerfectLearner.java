@@ -30,7 +30,7 @@ public class PerfectLearner extends AbstractPlayer
     isLearning = true;
     winScore=100;
     loseScore=-10000;
-    drawScore=0;
+    drawScore=-5;
     learningRate=0.3;
     discountFactor=0.4;
     this.playerNumber=playerNumber;
@@ -57,6 +57,7 @@ public class PerfectLearner extends AbstractPlayer
       //if move is illegal and same state is returned
       if (findIndex(state) == previousIndex){	
 	  qValues[previousIndex][previousMove] = -1000;
+	  //System.out.println("qValue: " + qValues[previousIndex][previousMove]);
 	 }
       else
 	 {
@@ -103,6 +104,7 @@ public class PerfectLearner extends AbstractPlayer
       } catch (IOException e){
 	  e.printStackTrace();
       }
+      //add lines to make csv file for qUpdateNum
   }  
     public void loadBrain() throws FileNotFoundException{
 	Scanner scanner = new Scanner(new File("brain.csv"));
@@ -114,6 +116,7 @@ public class PerfectLearner extends AbstractPlayer
 	    }
 	}
 	scanner.close();
+	//add lines to make csv for qupdateNum
     }
 
   @Override
@@ -136,11 +139,14 @@ public class PerfectLearner extends AbstractPlayer
         leastExplored = qUpdateNum[index][i];
         expMoveIndex = i;
       }
+      //System.out.println(i + ": " + qValues[index][i]);
       if (qValues[index][i] > bestQval) {
         bestQval = qValues[index][i];
         qMoveIndex = i;
       }
+      
     }
+    //System.out.println("best qValue,qIndex: " + bestQval + "," + qMoveIndex);
     TicTacToeMove thisMove;
     Random rand = new Random();
     if (rand.nextDouble() < exploreScore(leastExplored)) {
@@ -178,13 +184,13 @@ public class PerfectLearner extends AbstractPlayer
   @Override
   public void receiveResult(int result) {
     if (result == playerNumber) {
-	qValues[previousIndex][previousMove] = winScore); //set winScore to avoid overflow
+	qValues[previousIndex][previousMove] = winScore; //set winScore to avoid overflow
     }
     if (result == -1) {
-      qValues[previousIndex][previousMove] = drawScore);
+      qValues[previousIndex][previousMove] = drawScore;
     }
     else {
-      qValues[previousIndex][previousMove] = loseScore);
+      qValues[previousIndex][previousMove] = loseScore;
     }
   }
     
