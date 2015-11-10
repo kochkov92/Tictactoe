@@ -91,37 +91,72 @@ public class PerfectLearner extends AbstractPlayer
 
   public void saveBrain(){
       try {
-	  File file = new File("brain.csv");
-	  FileWriter fw = new FileWriter(file.getAbsoluteFile());
-	  BufferedWriter bw = new BufferedWriter(fw);
+	  File fileQVal = new File("brainQVal.csv");
+	  FileWriter fwQVal = new FileWriter(fileQVal.getAbsoluteFile());
+	  BufferedWriter bwQVal = new BufferedWriter(fwQVal);
 	  for (int i = 0; i < size; i++){
 	    for (int j = 0; j < 8; j++){
-	        bw.write(qValues[i][j]+",");
+	        bwQVal.write(qValues[i][j]+",");
 	    }
-	    bw.write(qValues[i][8]+"\n");
+	    bwQVal.write(qValues[i][8]+"\n");
 	  }
-	  bw.close();
+	  bwQVal.close();
       } catch (IOException e){
 	  e.printStackTrace();
       }
-      //add lines to make csv file for qUpdateNum
+      try {
+	  File fileQNum = new File("brainQNum.csv");
+	  FileWriter fwQNum = new FileWriter(fileQNum.getAbsoluteFile());
+	  BufferedWriter bwQNum = new BufferedWriter(fwQNum);
+	  for (int i = 0; i < size; i++){
+	      for (int j = 0; j < 8; j++){
+		  bwQNum.write(qUpdateNum[i][j]+",");
+	      }
+	      bwQNum.write(qUpdateNum[i][8]+"\n");
+	  }
+	  bwQNum.close();
+      } catch (IOException e){
+	  e.printStackTrace();
+      }    
   }  
     public void loadBrain() throws FileNotFoundException{
-	Scanner scanner = new Scanner(new File("brain.csv"));
-	scanner.useDelimiter(",");
-	for (int i = 0; i < size; i++){
-	    for (int j = 0; j < 9; j++){
-		while (scanner.hasNext())
-		    qValues[i][j] = Double.parseDouble(scanner.next());
+	try
+	{
+	    Scanner scannerQVal = new Scanner(new File("brainQVal.csv"));
+	    String delimiter = ",";
+	    for (int i = 0; i < size; i++) {
+		    for (int j = 0; j < 9; j++) {
+		        while (scannerQVal.hasNextLine())
+                {
+                    String line = scannerQVal.nextLine();
+                    String[] splitLine = line.split(delimiter);
+                    qValues[i][j] = Double.parseDouble(splitLine[2*i + j]);
+                }
+		    }
 	    }
+	    scannerQVal.close();
+	    Scanner scannerQNum = new Scanner(new File("brainQNum.csv"));
+	    scannerQNum.useDelimiter(",");
+	    for (int i = 0; i < size; i++){
+		    for (int j = 0; j < 9; j++){
+		        while (scannerQNum.hasNextLine())
+                {
+                    String line = scannerQNum.nextLine();
+                    String[] splitLine = line.split(delimiter);
+                    qUpdateNum[i][j] = Integer.parseInt(splitLine[2*i + j]);
+                }
+		    }
+	    }
+	    scannerQNum.close();
 	}
-	scanner.close();
-	//add lines to make csv for qupdateNum
+	catch(FileNotFoundException fnfe)
+	{
+	    throw new FileNotFoundException(("File not found"));
+	}
     }
 
   @Override
   public TicTacToeMove getMove(){
-      //nextMove.printMove();
       return nextMove;
   }
 
