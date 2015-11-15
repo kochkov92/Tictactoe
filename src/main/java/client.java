@@ -9,14 +9,27 @@ public class client {
     //judge.getStatistics(); //  output the results of the tournament
     TicTacToe game = new TicTacToe(3,3);
     AbstractPlayer[] players = new AbstractPlayer[2];
-    players[0] = new RandomPlayer(1);
-    players[1] = new PerfectLearner(2); //RealPlayer(2); //
-    ((PerfectLearner)players[1]).loadBrain();
+    players[1] = new RandomPlayer(2);
+    players[0] = new PerfectLearner(1); //RealPlayer(2); //
+    // players[1] = new RandomPlayer(2);
+    // ((PerfectLearner)players[1]).loadBrain();
     
     Referee judge = new Referee(game, players);
-    judge.playTournament(1000000);
-    System.out.println(game.getWinner());
+    for (int i = 0; i < 50; i++) {
+      System.out.print(i + ": ");
+      judge.playTournament(100000);
+    }
+    ((PerfectLearner) players[0]).setExploring(false);
 
-    ((PerfectLearner)players[1]).saveBrain();
+    // for (int i = 200; i < 400; i++) {
+    //   System.out.print(i + ": ");
+    //   judge.playTournament(100000);
+    // }
+    for (int j = 0; j < 1; j++) {
+      judge.gameWithOutput();
+    }
+    // System.out.println(game.getWinner());
+
+    // ((PerfectLearner)players[1]).saveBrain();
   }
 }

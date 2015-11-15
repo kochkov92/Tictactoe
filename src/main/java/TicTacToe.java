@@ -68,7 +68,7 @@ public class TicTacToe extends AbstractGame
       }
         if(count >= winningLength)
       {
-          System.out.println("Diagonal win");
+          // System.out.println("Diagonal win");
           return true;
       }
         else
@@ -226,6 +226,9 @@ public class TicTacToe extends AbstractGame
 		return 2;
 	}
 
+  public void print() {
+    state.print();
+  }
 	private int update(TicTacToeMove move)
 	{
 		if (this.state.board[move.getX()][move.getY()] == 0 &&
