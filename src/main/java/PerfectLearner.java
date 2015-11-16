@@ -11,10 +11,12 @@ public class PerfectLearner extends AbstractPlayer
   int previousIndex;
   int previousMove;
   boolean isLearning;
+  boolean isExploring;
   int moveNumber;
   double winScore;
   double loseScore;
   double drawScore;
+  boolean verbose;
 
   int size = (int) Math.pow(3,9);
     
@@ -27,15 +29,21 @@ public class PerfectLearner extends AbstractPlayer
         qUpdateNum[i][j] = 0;
       }
     }
+    verbose = false;
     isLearning = true;
-    winScore=100;
-    loseScore=-10000;
-    drawScore=-5;
-    learningRate=0.3;
-    discountFactor=0.4;
+    isExploring = true;
+    winScore=0;
+    loseScore=-500.0;
+    drawScore=0;
+    learningRate=0.7;
+    discountFactor=0.9;
     this.playerNumber=playerNumber;
   }
 
+  public void setVerbosity(boolean verbosity) {
+    verbose = verbosity;
+  }
+  
   //  set learning parameteres
   public void setParameters(double learning_rate, double discount_factor) {
     learningRate = learning_rate;
@@ -56,7 +64,7 @@ public class PerfectLearner extends AbstractPlayer
   public void updateQ(TicTacToeState state) {
       //if move is illegal and same state is returned
       if (findIndex(state) == previousIndex){	
-	  qValues[previousIndex][previousMove] = -1000;
+	  qValues[previousIndex][previousMove] = -10000;
 	  //System.out.println("qValue: " + qValues[previousIndex][previousMove]);
 	 }
       else
@@ -70,20 +78,20 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   private double reward(int previousIndex) {
-    return -0.1;
+    return 0.;
   }
 
 
     //finds maximum distance between qValue(current state) and qValue[previous_state][i] where i is the 9 possible moves
   public double maxQDiff(TicTacToeState state, int previousIndex,
-    int previousMove) {
+                         int previousMove) {
     double best = qValues[findIndex(state)][0] -
-      qValues[previousIndex][previousMove];
+                  qValues[previousIndex][previousMove];
     for (int i = 1; i < 9; i++) {
       if ((qValues[findIndex(state)][i] - 
         qValues[previousIndex][previousMove]) > best) {
         best = (qValues[findIndex(state)][i] - 
-               qValues[previousIndex][previousMove]);
+                qValues[previousIndex][previousMove]);
       }
     }
     return best;
@@ -153,12 +161,20 @@ public class PerfectLearner extends AbstractPlayer
   }
 
   private double exploreScore(int leastExplored) {
-    return 1./(leastExplored+3);
+    if (isExploring == true) {
+      return 1./((leastExplored)+3);
+    }
+    else 
+      return -1;
+  }
+
+  public void setExploring(boolean exploring) {
+    isExploring = exploring;
   }
 
   private void bestMove(int index) {
-    double bestQval=qValues[index][0];
-    int leastExplored = qUpdateNum[index][0];
+    double bestQval=qValues[index][0]; // sets initial value
+    int leastExplored = qUpdateNum[index][0]; // number of times rare move was explored
     int expMoveIndex=0;
     int qMoveIndex=0;
     for (int i = 1; i < 9; i++) {

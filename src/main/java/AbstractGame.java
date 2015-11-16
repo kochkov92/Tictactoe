@@ -7,5 +7,6 @@ public abstract class AbstractGame {
   public abstract int update(Move move);  //  updates the state
   public abstract GameState getState();  //  returns current state
   public abstract int getWinner();  //  returns index of the winner
+  public abstract void print();                                  
   
 }
