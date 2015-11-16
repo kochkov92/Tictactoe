@@ -1,4 +1,6 @@
 import java.io.*;
+import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
 
 public class PerfectLearner extends AbstractPlayer
@@ -32,7 +34,7 @@ public class PerfectLearner extends AbstractPlayer
     verbose = false;
     isLearning = true;
     isExploring = true;
-    winScore=0;
+    winScore=10;
     loseScore=-500.0;
     drawScore=0;
     learningRate=0.7;
@@ -155,6 +157,14 @@ public class PerfectLearner extends AbstractPlayer
 	}
     }
 
+    public void clearBrain(String brainName){
+        File f = new File(brainName + "QVal.csv");
+        f.delete();
+        File g = new File(brainName + "QNum.csv");
+        g.delete();
+        System.out.println("Brain " + brainName + " cleared.");
+    }
+
   @Override
   public TicTacToeMove getMove(){
       return nextMove;
@@ -229,7 +239,7 @@ public class PerfectLearner extends AbstractPlayer
     if (result == playerNumber) {
 	qValues[previousIndex][previousMove] = winScore; //set winScore to avoid overflow
     }
-    if (result == -1) {
+    else if (result == -1) {
       qValues[previousIndex][previousMove] = drawScore;
     }
     else {

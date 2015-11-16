@@ -12,15 +12,16 @@ public class client {
 
     players[1] = new RandomPlayer(2);
     players[0] = new PerfectLearner(1); //RealPlayer(2); //
-    // players[1] = new RandomPlayer(2);
-    // ((PerfectLearner)players[1]).loadBrain();
+    ((PerfectLearner)players[0]).loadBrain("brain");
+    //((PerfectLearner)players[0]).clearBrain("brain");
+
     
     Referee judge = new Referee(game, players);
     for (int i = 0; i < 50; i++) {
       System.out.print(i + ": ");
-      judge.playTournament(100000);
+      judge.playTournament(10000);
     }
-    ((PerfectLearner) players[0]).setExploring(false);
+    ((PerfectLearner)players[0]).setExploring(false);
 
     // for (int i = 200; i < 400; i++) {
     //   System.out.print(i + ": ");
@@ -31,6 +32,6 @@ public class client {
     }
     // System.out.println(game.getWinner());
 
-    // ((PerfectLearner)players[1]).saveBrain();
+    ((PerfectLearner)players[0]).saveBrain("brain");
   }
 }
