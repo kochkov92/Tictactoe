@@ -89,9 +89,9 @@ public class PerfectLearner extends AbstractPlayer
     return best;
   }
 
-  public void saveBrain(){
+  public void saveBrain(String brainName){
       try {
-	  File fileQVal = new File("brainQVal.csv");
+	  File fileQVal = new File(brainName + "QVal.csv");
 	  FileWriter fwQVal = new FileWriter(fileQVal.getAbsoluteFile());
 	  BufferedWriter bwQVal = new BufferedWriter(fwQVal);
 	  for (int i = 0; i < size; i++){
@@ -101,11 +101,8 @@ public class PerfectLearner extends AbstractPlayer
 	    bwQVal.write(qValues[i][8]+"\n");
 	  }
 	  bwQVal.close();
-      } catch (IOException e){
-	  e.printStackTrace();
-      }
-      try {
-	  File fileQNum = new File("brainQNum.csv");
+
+	  File fileQNum = new File(brainName + "QNum.csv");
 	  FileWriter fwQNum = new FileWriter(fileQNum.getAbsoluteFile());
 	  BufferedWriter bwQNum = new BufferedWriter(fwQNum);
 	  for (int i = 0; i < size; i++){
@@ -119,33 +116,28 @@ public class PerfectLearner extends AbstractPlayer
 	  e.printStackTrace();
       }    
   }  
-    public void loadBrain() throws FileNotFoundException{
+    public void loadBrain(String brainName) throws FileNotFoundException{
 	try
 	{
-	    Scanner scannerQVal = new Scanner(new File("brainQVal.csv"));
+	    Scanner scannerQVal = new Scanner(new File(brainName + "QVal.csv"));
 	    String delimiter = ",";
 	    for (int i = 0; i < size; i++) {
-		    for (int j = 0; j < 9; j++) {
-		        while (scannerQVal.hasNextLine())
-                {
-                    String line = scannerQVal.nextLine();
-                    String[] splitLine = line.split(delimiter);
-                    qValues[i][j] = Double.parseDouble(splitLine[2*i + j]);
-                }
-		    }
-	    }
-	    scannerQVal.close();
-	    Scanner scannerQNum = new Scanner(new File("brainQNum.csv"));
+            String line = scannerQVal.nextLine();
+            String[] splitLine = line.split(delimiter);
+            for (int j = 0; j < 9; j++) {
+                qValues[i][j] = Double.parseDouble(splitLine[j]);
+            }
+        }
+
+        scannerQVal.close();
+	    Scanner scannerQNum = new Scanner(new File(brainName + "QNum.csv"));
 	    scannerQNum.useDelimiter(",");
-	    for (int i = 0; i < size; i++){
-		    for (int j = 0; j < 9; j++){
-		        while (scannerQNum.hasNextLine())
-                {
-                    String line = scannerQNum.nextLine();
-                    String[] splitLine = line.split(delimiter);
-                    qUpdateNum[i][j] = Integer.parseInt(splitLine[2*i + j]);
-                }
-		    }
+	    for (int i = 0; i < size; i++) {
+            String line = scannerQNum.nextLine();
+            String[] splitLine = line.split(delimiter);
+            for (int j = 0; j < 9; j++) {
+                qUpdateNum[i][j] = Integer.parseInt(splitLine[j]);
+            }
 	    }
 	    scannerQNum.close();
 	}
@@ -228,5 +220,4 @@ public class PerfectLearner extends AbstractPlayer
       qValues[previousIndex][previousMove] = loseScore;
     }
   }
-    
 }

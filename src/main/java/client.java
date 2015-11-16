@@ -11,12 +11,12 @@ public class client {
     AbstractPlayer[] players = new AbstractPlayer[2];
     players[0] = new RandomPlayer(1);
     players[1] = new PerfectLearner(2); //RealPlayer(2); //
-    ((PerfectLearner)players[1]).loadBrain();
+    ((PerfectLearner)players[1]).loadBrain("brain");
     
     Referee judge = new Referee(game, players);
-    judge.playTournament(1000000);
+    judge.playTournament(100000);
     System.out.println(game.getWinner());
 
-    ((PerfectLearner)players[1]).saveBrain();
+    ((PerfectLearner)players[1]).saveBrain("brain");
   }
 }
