@@ -20,9 +20,9 @@ public class RealPlayer extends AbstractPlayer {
   @Override
   public Move getMove() {
     Scanner input = new Scanner(System.in);
-    System.out.print("Enter x coordinate:");
+    System.out.println("Enter x coordinate:");
     int x = input.nextInt();
-    System.out.print("Enter y coordinate:");
+    System.out.println("Enter y coordinate:");
     int y = input.nextInt();
     return new TicTacToeMove(playerNumber, x, y);
   }

@@ -21,15 +21,18 @@ public class Referee {
   };  //  constructor
   public void playMatch(boolean shouldPrint)
     {
+      mygame.reset();
 	AbstractPlayer currentPlayer;
+  TicTacToeMove newMove;
 	do {
     if (shouldPrint) {
       mygame.print();
     }
   		currentPlayer = players[mygame.getTurn() - 1];
 		currentPlayer.receiveState(mygame.getState());
-  		mygame.update(currentPlayer.getMove());
-	} while(!mygame.isOver(currentPlayer.getMove()));
+    newMove = (TicTacToeMove)currentPlayer.getMove();
+  		mygame.update(newMove);
+	} while(!mygame.isOver(newMove));
     if (mygame.getWinner()==1) {
       winnerOne++;
     }

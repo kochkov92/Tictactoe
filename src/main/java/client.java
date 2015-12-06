@@ -10,9 +10,11 @@ public class client {
     TicTacToe game = new TicTacToe(3,3);
     AbstractPlayer[] players = new AbstractPlayer[2];
 
-    players[1] = new RandomPlayer(2);
-    players[0] = new PerfectLearner(1); //RealPlayer(2); //
+    players[1] = new RealPlayer(2); //RandomPlayer(2);
+    players[0] = new PerfectLearner(1); //RealPlayer(2); /
     //((PerfectLearner)players[0]).loadBrain("brain");
+    // players[0] = new RandomPlayer(1);
+    ((PerfectLearner)players[0]).loadBrain("brain");
     //((PerfectLearner)players[0]).clearBrain("brain");
     ((PerfectLearner)players[0]).setExploring(false);
     
@@ -20,17 +22,28 @@ public class client {
     for (int i = 0; i < 50; i++) {
       System.out.print(i + ": ");
       judge.playTournament(10000);
-    }
+   
+    }    // for (int i = 0; i < 50; i++) {
+    //   System.out.print(i + ": ");
+    //   judge.playTournament(10000);
+    // }
+    // ((PerfectLearner)players[0]).setExploring(false);
+    judge.playMatch(false);
+
+    // for (int i = 0; i < 50; i++) {
+    //   System.out.print(i + ": ");
+    //   judge.playTournament(10000);
+    // }
 
     // for (int i = 200; i < 400; i++) {
     //   System.out.print(i + ": ");
     //   judge.playTournament(100000);
     // }
-    for (int j = 0; j < 1; j++) {
-      judge.gameWithOutput();
-    }
+    // for (int j = 0; j < 1; j++) {
+    //   judge.gameWithOutput();
+    // }
     // System.out.println(game.getWinner());
 
-    ((PerfectLearner)players[0]).saveBrain("brain");
+    // ((PerfectLearner)players[0]).saveBrain("brain");
   }
 }
