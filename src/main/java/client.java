@@ -12,16 +12,15 @@ public class client {
 
     players[1] = new RandomPlayer(2);
     players[0] = new PerfectLearner(1); //RealPlayer(2); //
-    ((PerfectLearner)players[0]).loadBrain("brain");
+    //((PerfectLearner)players[0]).loadBrain("brain");
     //((PerfectLearner)players[0]).clearBrain("brain");
-
+    ((PerfectLearner)players[0]).setExploring(false);
     
     Referee judge = new Referee(game, players);
     for (int i = 0; i < 50; i++) {
       System.out.print(i + ": ");
       judge.playTournament(10000);
     }
-    ((PerfectLearner)players[0]).setExploring(false);
 
     // for (int i = 200; i < 400; i++) {
     //   System.out.print(i + ": ");

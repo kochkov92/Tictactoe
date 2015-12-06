@@ -34,7 +34,7 @@ public class PerfectLearner extends AbstractPlayer
     verbose = false;
     isLearning = true;
     isExploring = true;
-    winScore=10;
+    winScore=0;
     loseScore=-500.0;
     drawScore=0;
     learningRate=0.7;
