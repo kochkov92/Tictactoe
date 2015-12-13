@@ -1,5 +1,6 @@
 import java.util.*;
 import java.lang.Math;
+import java.text.DecimalFormat;
 
 public class Neuron {
     private Vector<Double> weights;
@@ -9,9 +10,23 @@ public class Neuron {
     private int index = 0;
     private int activationIndex = 0;
     private boolean knownValue = false;
-    public final int IDENTITY = 0;
-    public final int TANH = 1;
+    public static final int IDENTITY = 0;
+    public static final int TANH = 1;
 
+    
+    
+    public Neuron(int ind, int layerInd, int actInd)
+    {
+    	index = ind;
+    	activationIndex = actInd;
+    	layerIndex = layerInd;
+        weights = new Vector<Double>();
+        parents = new Vector<Neuron>();
+    }
+    
+    //TODO: fix constructors that dont include layerIndex
+    //		should probably put layerIndex before actIndex
+    
     public Neuron(int ind, int actInd)
     {
         index = ind;
@@ -23,11 +38,23 @@ public class Neuron {
     public Neuron(int ind)
     {
         index = ind;
-        activationIndex = 0;
+        activationIndex = 1;
         weights = new Vector<Double>();
         parents = new Vector<Neuron>();
     }
 
+    public void print()
+    {
+		DecimalFormat df = new DecimalFormat();
+    	System.out.println("NeuronID " + index + " = " + df.format(getValue()));
+    	
+    	for(int i = 0; i< parents.size(); i++)
+    	{
+    		df.setMaximumFractionDigits(2);
+    		System.out.println("	" + df.format(weights.get(i)) + " ParentID " + parents.get(i).getIndex() + " = " + df.format(parents.get(i).getValue()));
+    	}
+    }
+    
     public void addParent(Neuron neuron, double weight){
         parents.add(neuron);
         weights.add(weight);
@@ -81,5 +108,10 @@ public class Neuron {
     public int getIndex(){
         return index;
     }
+    
+    public int getLayer(){
+    	return layerIndex;
+    }
+    
 
 }
