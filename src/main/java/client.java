@@ -10,13 +10,13 @@ public class client {
     TicTacToe game = new TicTacToe(3,3);
     AbstractPlayer[] players = new AbstractPlayer[2];
 
-    players[1] = new RealPlayer(2); //RandomPlayer(2);
-    players[0] = new PerfectLearner(1); //RealPlayer(2); /
+    players[1] = new RandomPlayer(2); //RandomPlayer(2);
+    players[0] = new TTTNetwork(1,3,1,3); //RealPlayer(2); /
     //((PerfectLearner)players[0]).loadBrain("brain");
     // players[0] = new RandomPlayer(1);
-    ((PerfectLearner)players[0]).loadBrain("brain");
+    //((PerfectLearner)players[0]).loadBrain("brain");
     //((PerfectLearner)players[0]).clearBrain("brain");
-    ((PerfectLearner)players[0]).setExploring(false);
+    //((PerfectLearner)players[0]).setExploring(false);
     
     Referee judge = new Referee(game, players);
     for (int i = 0; i < 50; i++) {

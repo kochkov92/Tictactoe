@@ -85,6 +85,10 @@ public class Neuron {
         knownValue = true;
     }
 
+    public void setUnknown(){
+    	knownValue = false;
+    }
+    
     public double getValue(){
         if(knownValue == false){
             this.computeValue();

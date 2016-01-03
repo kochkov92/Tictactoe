@@ -14,6 +14,8 @@ public abstract class NeuralNetwork extends AbstractPlayer
 	
 	protected abstract void computeMove();
 	
+	public abstract void receiveState(GameState state);
+	
 	public Move getMove()
 	{
 		return nextMove;
