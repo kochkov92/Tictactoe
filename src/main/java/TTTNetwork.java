@@ -15,7 +15,7 @@ public class TTTNetwork extends NeuralNetwork
 		this.boardSize = boardSize;
 		
 		//create input neurons
-		for(int i = 0;i< boardSize*boardSize; i++)
+		for(int i = 0; i < boardSize*boardSize; i++)
 		{
 			Neuron inputNode = new Neuron(nextIndex,0,Neuron.TANH);
 			inputNode.setValue(1);
@@ -23,23 +23,23 @@ public class TTTNetwork extends NeuralNetwork
 			nextIndex++;
 		}
 		
-		for(int i =0; i<hiddenLayers; i++)
+		for(int i = 0; i < hiddenLayers; i++)
 		{
-			for(int j = 0; j<hiddenNeurons;j++)
+			for(int j = 0; j < hiddenNeurons; j++)
 			{
-				Neuron node = new Neuron(nextIndex,i+1,Neuron.TANH);
+				Neuron node = new Neuron(nextIndex, i+1, Neuron.TANH);
 				
 				//fill in the parents from previous layer
 				if(i == 0)	//previous layer is input
 				{
-					for(int k = 0;k<input.size();k++)
+					for(int k = 0; k < input.size(); k++)
 					{
 						node.addParent(input.get(k), randomWeight());
 					}
 				}
 				else	//previous layer is hidden
 				{
-					for(int k = 0; k<hidden.size();k++)
+					for(int k = 0; k < hidden.size(); k++)
 					{
 						if(hidden.get(k).getLayer() == i)
 						{
@@ -54,19 +54,19 @@ public class TTTNetwork extends NeuralNetwork
 			}
 			
 		}
-		
-		Neuron outNode = new Neuron(nextIndex,hiddenLayers+1,Neuron.TANH);
-		
-		for(int i = 0; i<hidden.size();i++)
-		{
-			if(hidden.get(i).getLayer() == hiddenLayers)
-			{
-				outNode.addParent(hidden.get(i), randomWeight());
-			}
-		}
-		
-		output.add(outNode);
-		nextIndex++;
+		for (int i = 0; i < boardSize * boardSize; ++i) {
+      Neuron node = new Neuron(nextIndex,hiddenLayers+1,Neuron.TANH);
+
+      for(int j = 0; j < hidden.size(); ++j)
+      {
+        if(hidden.get(j).getLayer() == hiddenLayers)
+        {
+          node.addParent(hidden.get(j), randomWeight());
+        }
+      }
+      output.add(node);
+      nextIndex++;
+    }
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class TTTNetwork extends NeuralNetwork
 	 */
 	private double randomWeight()
 	{
-		return 1*Math.random()-0.5;
+		return 1*Math.random() - 0.5;
 	}
 	
 	public void print()
@@ -121,20 +121,19 @@ public class TTTNetwork extends NeuralNetwork
 	 */
 	private void receiveState(TicTacToeState state)
 	{
-		for(int i = 0; i< state.sizeX; i++)
+		for(int i = 0; i < state.sizeX; i++)
 		{
-			for(int j = 0; j< state.sizeY;j++)
+			for(int j = 0; j < state.sizeY; j++)
 			{
-				input.get(state.sizeY*i + j).setValue(state.board[i][j] + 1);
-				
+				input.get(state.sizeY * i + j).setValue(state.board[i][j] + 1);
 			}
 		}
 		
-		for(int i = 0; i < hidden.size();i++)
+		for(int i = 0; i < hidden.size(); i++)
 		{
 			hidden.get(i).setUnknown();
 		}
-		for(int i = 0; i < output.size();i++)
+		for(int i = 0; i < output.size(); i++)
 		{
 			output.get(i).setUnknown();
 		}
@@ -180,12 +179,18 @@ public class TTTNetwork extends NeuralNetwork
 	 */
 	protected void computeMove()
 	{
-		double moveValue = output.get(0).getValue();
-		moveValue = moveValue + 1;
-		moveValue = boardSize*boardSize*moveValue/2;
+    double moveValue = output.get(0).getValue();
+    int move = 0;
+    for (int i = 1; i < output.size(); ++i) {
+      double temp = output.get(i).getValue();
+      if (temp > moveValue) {
+        moveValue = temp;
+        move = i;
+      }
+    }
 		
-		int x = (int)Math.floor(moveValue)/boardSize;
-		int y = (int)Math.floor(moveValue)%boardSize;
+		int x = (int)Math.floor(move)/boardSize;
+		int y = (int)Math.floor(move)%boardSize;
 		
 		
 		nextMove = new TicTacToeMove(playerNumber,x,y);

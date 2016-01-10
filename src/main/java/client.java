@@ -22,7 +22,6 @@ public class client {
     for (int i = 0; i < 50; i++) {
       System.out.print(i + ": ");
       judge.playTournament(10000);
-   
     }    // for (int i = 0; i < 50; i++) {
     //   System.out.print(i + ": ");
     //   judge.playTournament(10000);
