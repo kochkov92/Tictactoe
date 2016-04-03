@@ -34,11 +34,11 @@ public class PerfectLearner extends AbstractPlayer
     verbose = false;
     isLearning = true;
     isExploring = true;
-    winScore=0;
-    loseScore=-500.0;
-    drawScore=0;
-    learningRate=0.7;
-    discountFactor=0.9;
+    winScore = 1.;
+    loseScore = -500.0;
+    drawScore = 0;
+    learningRate = 0.7;
+    discountFactor = 0.9;
     this.playerNumber=playerNumber;
   }
 

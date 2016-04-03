@@ -81,20 +81,20 @@ public class TicTacToeState extends GameState
 	public void print()
 	{
     System.out.print("\n");
-	    for (int i = 0; i < this.sizeX; i++) {
-	        for (int j =0; j < this.sizeY; j++) {
-            if (this.board[j][i] == 0) {
-              System.out.print("|   |");
-            }
-            if (this.board[j][i] == 1) {
-              System.out.print("| X |");
-            }
-            if (this.board[j][i] == 2) {
-              System.out.print("| O |");
-            }
-	        }
-          System.out.print("\n");
-          System.out.println("_________________");
-	      }	
+    for (int i = 0; i < this.sizeX; i++) {
+      for (int j =0; j < this.sizeY; j++) {
+        if (this.board[j][i] == 0) {
+          System.out.print("|   |");
+        }
+        if (this.board[j][i] == 1) {
+          System.out.print("| X |");
+        }
+        if (this.board[j][i] == 2) {
+          System.out.print("| O |");
+        }
+      }
+      System.out.print("\n");
+      System.out.println("_________________");
+    }	
 	}
 }

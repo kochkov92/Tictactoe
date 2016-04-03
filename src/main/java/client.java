@@ -8,10 +8,14 @@ public class client {
     //judge.tournament(parser.numGames());  //  sample start of N-game tournament
     //judge.getStatistics(); //  output the results of the tournament
     TicTacToe game = new TicTacToe(3,3);
-    AbstractPlayer[] players = new AbstractPlayer[2];
-
+    AbstractPlayer[] players = new AbstractPlayer[3];
+    
+    // players[1] = new NNplayer(1,3); //RealPlayer(2);
+    // players[1] = new PerfectLearner(2);
     players[1] = new RandomPlayer(2); //RandomPlayer(2);
-    players[0] = new TTTNetwork(1,3,1,3); //RealPlayer(2); /
+    players[0] = new NNplayer(1,3); //RealPlayer(2);
+    ((NNplayer)players[0]).initializeBrain(2,8);
+    // ((NNplayer)players[1]).initializeBrain(1,7);
     //((PerfectLearner)players[0]).loadBrain("brain");
     // players[0] = new RandomPlayer(1);
     //((PerfectLearner)players[0]).loadBrain("brain");
@@ -19,15 +23,20 @@ public class client {
     //((PerfectLearner)players[0]).setExploring(false);
     
     Referee judge = new Referee(game, players);
-    for (int i = 0; i < 50; i++) {
+    for (int i = 0; i < 300; i++) {
       System.out.print(i + ": ");
-      judge.playTournament(10000);
+      judge.playTournament(24000 * 3);
+      ((NNplayer)players[0]).evolve(0.00, 2);
+      // ((NNplayer)players[1]).evolve(5., 2);
     }    // for (int i = 0; i < 50; i++) {
     //   System.out.print(i + ": ");
     //   judge.playTournament(10000);
     // }
     // ((PerfectLearner)players[0]).setExploring(false);
-    judge.playMatch(false);
+    ((NNplayer)players[0]).brains.get(0).print();
+    judge.playMatch(true);
+    players[1] = new RealPlayer(2);
+    judge.playMatch(true);
 
     // for (int i = 0; i < 50; i++) {
     //   System.out.print(i + ": ");

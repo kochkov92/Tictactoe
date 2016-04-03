@@ -12,7 +12,7 @@ public class TicTacToe extends AbstractGame
 		this.moveNum = 0;
 		this.winner = 0; // zero for no winner, player id otherwise
 		this.winningLength = 3;
-	}
+	} 
     
         @Override
         public void reset(){

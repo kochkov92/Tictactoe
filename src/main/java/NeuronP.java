@@ -13,23 +13,15 @@ public class Neuron extends AbstractNeuron {
   Double delta; // the crucial part of backProp,
   Vector<Double> weights; // vector of weights
   Vector<Double> gradients; // gradients with respect to weights
+  Vector<Double> momentum;
   Vector<AbstractNeuron> parents; // references to parent neurons
 
   // Vector<Double> secondGradient;
 
   // class methods
   public Neuron(AbstractNeuron identity_) {
-    numChildren = 0;
-    deltaUpdates = 0;
-    gradUpdates = 0;
-    delta = 0.;
-    batchUpdate = 10; // fixed for now
-    weights = new Vector<Double>();
-    parents = new Vector<AbstractNeuron>();
-    gradients = new Vector<Double>();
-    valueKnown = false;
+    Neuron();
     addParent(identity_);
-    name = "Neuron";
   }
 
     public Neuron() {
@@ -41,6 +33,7 @@ public class Neuron extends AbstractNeuron {
     weights = new Vector<Double>();
     parents = new Vector<AbstractNeuron>();
     gradients = new Vector<Double>();
+    momentum = new Vector<Double>();
     valueKnown = false;
     name = "Neuron";
   }
@@ -144,8 +137,9 @@ public class Neuron extends AbstractNeuron {
       // }
       // System.out.println(index + " " + magnitude + " " + getDeriv());
 
-      for (int i = 0; i < weights.size(); ++i) {
-        weights.set(i, weights.get(i) - gradients.get(i) * learningRate_ / gradUpdates);
+      for (int i = 0; i < weights.size(); ++i) { // adding momentum to the gradient
+        weights.set(i, weights.get(i) + momentum.get(i) - 
+          gradients.get(i) * learningRate_ / gradUpdates);
       }
       gradUpdates = 0;
       resetGradients();
@@ -156,6 +150,17 @@ public class Neuron extends AbstractNeuron {
     for (int i = 0; i < gradients.size(); ++i) {
       gradients.set(i, 0.);
     }
+  }
+
+  private void reduceMomentum(Double factor_) {
+    for (int i = 0; i < momentum.size(); ++i) {
+      momentum.set(i, momentum.get(i) / factor_);
+    }
+  }
+
+  @Override
+  public void signal(Double value_) {
+    reduceMomentum(value_);
   }
 
   @Override
