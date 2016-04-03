@@ -1,5 +1,5 @@
 import java.util.*;
-public class Neuron extends AbstractNeuron {
+public class NeuronP extends AbstractNeuron {
   // constants
   public static final double WEIGHT_AMPLITUDE = 0.1;
   // class variables
@@ -19,17 +19,17 @@ public class Neuron extends AbstractNeuron {
   // Vector<Double> secondGradient;
 
   // class methods
-  public Neuron(AbstractNeuron identity_) {
-    Neuron();
+  public NeuronP(AbstractNeuron identity_) {
+    this();
     addParent(identity_);
   }
 
-    public Neuron() {
+    public NeuronP() {
     numChildren = 0;
     deltaUpdates = 0;
     gradUpdates = 0;
     delta = 0.;
-    batchUpdate = 10; // fixed for now
+    batchUpdate = 20; // fixed for now
     weights = new Vector<Double>();
     parents = new Vector<AbstractNeuron>();
     gradients = new Vector<Double>();
@@ -84,6 +84,7 @@ public class Neuron extends AbstractNeuron {
     parents.add(parent_);
     weights.add(weight_);
     gradients.add(0.);
+    momentum.add(0.);
     parent_.addChild();
   }
 
@@ -138,7 +139,9 @@ public class Neuron extends AbstractNeuron {
       // System.out.println(index + " " + magnitude + " " + getDeriv());
 
       for (int i = 0; i < weights.size(); ++i) { // adding momentum to the gradient
-        weights.set(i, weights.get(i) + momentum.get(i) - 
+        momentum.set(i, momentum.get(i) + 0.1 * gradients.get(i) * learningRate_ / gradUpdates);
+        // weights.set(i, weights.get(i) -1. * momentum.get(i));
+        weights.set(i, weights.get(i) - momentum.get(i) - 
           gradients.get(i) * learningRate_ / gradUpdates);
       }
       gradUpdates = 0;

@@ -157,7 +157,7 @@ public class OutputNeuron extends AbstractNeuron {
   public void updateGradients(Double feedBack_) {
     // delta = feedBack_ * getDeriv();
     gradUpdates++;
-    delta = (2. + feedBack_) * (value - feedBack_) * getDeriv();
+    delta = (value - feedBack_) * getDeriv();
     for (int i = 0; i < parents.size(); ++i) {
       gradients.set(i, gradients.get(i) + delta * parents.get(i).getValue());
     }

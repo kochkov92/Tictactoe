@@ -93,7 +93,7 @@ public class NeuralNetwork {
     }
   }
 
-  private void backProp(Vector<Double> targets_) {
+  protected void backProp(Vector<Double> targets_) {
     for (int i = 0; i < outputLayer.size(); ++i) {
       outputLayer.get(i).updateGradients(targets_.get(i));
       outputLayer.get(i).propagate();
@@ -106,7 +106,7 @@ public class NeuralNetwork {
     }
   }
 
-  private Vector<Double> convertLabel(Double label_) {
+  protected Vector<Double> convertLabel(Double label_) {
     Vector<Double> vecLabel = new Vector<Double>();
     for (int i = 0; i < outputLayer.size(); ++i) {
       vecLabel.add(-1.);
@@ -115,7 +115,7 @@ public class NeuralNetwork {
     return vecLabel;
   }
 
-  private void updateWeightsAll(Double learningRate_) {
+  protected void updateWeightsAll(Double learningRate_) {
     Iterator<AbstractNeuron> outputIter = outputLayer.iterator();
     while (outputIter.hasNext()) {
       outputIter.next().updateWeights(learningRate_);
@@ -146,7 +146,21 @@ public class NeuralNetwork {
     }
   }
 
-  private Double digitPrediction() {
+  protected Double digitPrediction(Vector<Double> inputVals_) {
+    setUnknownAll();
+    setInputs(inputVals_);
+    Double max = outputLayer.get(0).getValue();
+    Double maxIndex = 0.;
+    for (int i = 1; i < outputLayer.size(); ++i) {
+      if (outputLayer.get(i).getValue() > max) {
+        maxIndex = 1. * i;
+        max = outputLayer.get(i).getValue();
+      }
+    }
+    return maxIndex;
+  }
+
+  protected Double digitPrediction() {
     Double max = outputLayer.get(0).getValue();
     Double maxIndex = 0.;
     for (int i = 1; i < outputLayer.size(); ++i) {
@@ -163,8 +177,7 @@ public class NeuralNetwork {
       Double error = 0.;
       int mistakes = 0;
       for (int j = 0; j < trainAttributes.size(); ++j) {
-        setUnknownAll();
-        setInputs(trainAttributes.get(j));
+        digitPrediction(trainAttributes.get(j));
         Double distance = 0.;
         for (int k = 0; k < outputLayer.size(); ++k) {
           distance += outputLayer.get(k).getValue() * convertLabel(trainLabels.get(j)).get(k);
@@ -172,14 +185,8 @@ public class NeuralNetwork {
         if (!digitPrediction().equals(trainLabels.get(j))) {
           mistakes++;
         }
-        // Vector<Double> feedback = convertLabel(trainLabels.get(j));
-        // for (int k = 0; k < feedback.size(); ++k) {
-        //   feedback.set(k, feedback.get(k) * (distance - 10.));
-        // }
-        // backProp(feedback);
         backProp(convertLabel(trainLabels.get(j))); // old update
         updateWeightsAll(learningRate_ / (1 + Math.sqrt(Math.sqrt(i)))); // this is artificial
-        // error += (distance - 10.) * (distance - 10.) / 2.;
         for (int k = 0; k < outputLayer.size(); ++k) {
           error += (convertLabel(trainLabels.get(j)).get(k) - outputLayer.get(k).getValue()) * 
                    (convertLabel(trainLabels.get(j)).get(k) - outputLayer.get(k).getValue());
@@ -210,6 +217,20 @@ public class NeuralNetwork {
       }
       System.out.println("Mistakes made " + mistakes + " err " + error);
       mistakes = 0;
+    }
+  }
+
+  public void iterateAll(Applicable action_) {
+    iterate(inputLayer.iterator(), action_);
+    for (int i = 0; i < hiddenLayers.size(); ++i) {
+      iterate(hiddenLayers.get(i).iterator(), action_);
+    }
+    iterate(outputLayer.iterator(), action_);
+  }
+
+  public void iterate(Iterator<AbstractNeuron> it_, Applicable action_) {
+    while (it_.hasNext()) {
+      action_.action(it_.next());
     }
   }
 
@@ -267,7 +288,7 @@ public class NeuralNetwork {
     }
   }
 
-  private void setInputs(Vector<Double> attributes_) {
+  protected void setInputs(Vector<Double> attributes_) {
     if (attributes_.size() != inputLayer.size()) {
       System.out.println("Number of features doesn't match");
       return; // maybe throw an exception
@@ -304,7 +325,7 @@ public class NeuralNetwork {
     trainLabels = myReader.getLabels();
   }
 
-  private AbstractNeuron createNeuron(String line_) {
+  protected AbstractNeuron createNeuron(String line_) {
     AbstractNeuron newNeuron;
     Scanner scan = new Scanner(line_);
     String type = scan.next();
@@ -453,7 +474,7 @@ public class NeuralNetwork {
     catch(UnsupportedEncodingException ex) {}
   }
 
-  private void connectNeuron(AbstractNeuron theNeuron_, 
+  protected void connectNeuron(AbstractNeuron theNeuron_, 
                              Iterator<AbstractNeuron> parentsIt_) {
     while (parentsIt_.hasNext()) {
       theNeuron_.addParent(parentsIt_.next());
