@@ -2,6 +2,7 @@ import java.util.*;
 // import java.util.Collections;
 import java.io.*;
 import java.lang.*;
+import java.time.*;
 public class NeuralNetworkP extends NeuralNetwork {
   Vector<Vector<Double> > validationAttributes;
   Vector<Double> validationLabels;
@@ -112,6 +113,7 @@ public class NeuralNetworkP extends NeuralNetwork {
       order.add(i);
     }
     for (int i = 0; i < iterations_; ++i) {
+      // disableRandom(1, 0); // this is a dropOut
       Double error = 0.; // do I need that?
       int mistakes = 0;
       Collections.shuffle(order);
@@ -130,8 +132,38 @@ public class NeuralNetworkP extends NeuralNetwork {
                    (convertLabel(trainLabels.get(order.get(j))).get(k) - outputLayer.get(k).getValue());
         }
       }
+      saveStats(error, i, mistakes);
       System.out.println("Error at epoch " + i + " is " + error + " " + mistakes);
     }
+  }
+
+  public void disableRandom(double num_, int layer_) {
+    Iterator<AbstractNeuron> layerIter;
+    layerIter = hiddenLayers.get(layer_).iterator();
+    Double rate = 1. - num_ / hiddenLayers.get(layer_).size();
+    while (layerIter.hasNext()) {
+      if (1. * Math.random() > rate) {
+        AbstractNeuron current = layerIter.next();
+        System.out.println("I disabled neuron # " + current.index);
+        current.setDisabled(true);
+      }
+      else {
+        layerIter.next();
+      }
+    }
+  }
+
+  public void saveStats(Double error_, int epoch_, int mistakes_) {
+    try {
+      Clock myClock = Clock.systemDefaultZone();
+      PrintWriter writer = new PrintWriter(new FileOutputStream(new File("progress.txt"), true));
+      writer.println(epoch_ + " " + error_ + " " + mistakes_ + " " + myClock.instant().now());
+      writer.close();
+    }
+    catch(FileNotFoundException ex) {
+      System.out.println("Unable to open file");                
+    }
+    // catch(UnsupportedEncodingException ex) {}
   }
 
   public static void main(String[] args) {
@@ -146,10 +178,10 @@ public class NeuralNetworkP extends NeuralNetwork {
     // digitRecognizer.loadValidationData("data/validation.csv");
     // digitRecognizer.buildConnectedNetwork(784, 40, 10);
     digitRecognizer.loadNetwork("bigTrainBrain9.txt");
-    digitRecognizer.loadData("data/30kTrain.csv");
-    // digitRecognizer.loadData("data/1kTest.csv");
-    // digitRecognizer.trainBackPropDigits(0.0000, 1);
-    digitRecognizer.trainBackPropDigits(0.001, 10);
+    // digitRecognizer.loadData("data/30kTrain.csv");
+    digitRecognizer.loadData("data/1kTest.csv");
+    digitRecognizer.trainBackPropDigits(0.0000, 6);
+    // digitRecognizer.trainBackPropDigits(0.001, 10);
     digitRecognizer.saveNetwork("bigTrainBrain10.txt");
   }
 

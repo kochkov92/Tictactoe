@@ -4,6 +4,7 @@ public class NeuronP extends AbstractNeuron {
   public static final double WEIGHT_AMPLITUDE = 1.;
   // class variables
   boolean valueKnown; // do we know the value of the neuron?
+  boolean disabled;
   int numChildren; // needed for delta updates, to know when we got all parts
   int deltaUpdates; // how many childer already contributed their parts
   int gradUpdates;
@@ -37,6 +38,7 @@ public class NeuronP extends AbstractNeuron {
     gradients = new Vector<Double>();
     momentum = new Vector<Double>();
     valueKnown = false;
+    disabled = false;
     name = "Neuron";
   }
 
@@ -51,7 +53,22 @@ public class NeuronP extends AbstractNeuron {
 
   @Override
   public void setUnknown() {
-    valueKnown = false;
+    if (!disabled) {
+      valueKnown = false;
+    }
+  }
+
+  @Override
+  public void setDisabled(boolean disabled_) {
+    if (disabled_) {
+      disabled = disabled_;
+      valueKnown = true;
+      value = 0.;
+      argument = 0.;
+    }
+    else {
+      valueKnown = false;
+    }
   }
 
   @Override

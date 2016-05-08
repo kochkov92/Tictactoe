@@ -18,6 +18,7 @@ public abstract class AbstractNeuron implements Comparable<AbstractNeuron> {
 
   public void signal(Double value_) {}
 
+  public void setDisabled(boolean disabled_) {}
   public abstract String printLinks();
   public abstract void voice();
   public abstract void setValue(Double value_);
