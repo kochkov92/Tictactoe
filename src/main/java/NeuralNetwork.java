@@ -384,7 +384,7 @@ public class NeuralNetwork {
         layersSizes.add(scan.nextInt());
         hiddenLayers.add(new TreeSet<AbstractNeuron>());
       }
-      System.out.println("Got " + layersSizes.get(0) + " input neurons");
+      System.out.println("Got " + layersSizes.get(0) + " output neurons");
       scan.close();
       lastNeuronIndex = 0; // just to make sure that we don't mess indices up
       identityNeuron = IdentityNeuron.getInstance();

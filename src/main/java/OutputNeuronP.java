@@ -1,35 +1,34 @@
 import java.util.*;
-public class NeuronP extends AbstractNeuron {
+public class OutputNeuronP extends AbstractNeuron {
   // constants
   public static final double WEIGHT_AMPLITUDE = 1.;
   // class variables
   boolean valueKnown; // do we know the value of the neuron?
   int numChildren; // needed for delta updates, to know when we got all parts
   int deltaUpdates; // how many childer already contributed their parts
-  int gradUpdates;
-  int batchUpdate;
-  Double momentumRate;
-  Double viscosity;
   Double value; // value of the artificial neuron
   Double argument; // the weighted sum, can be usefull for deriv value
   Double delta; // the crucial part of backProp,
+  int gradUpdates;
+  int batchUpdate;
+  Double viscosity;
+  Double momentumRate;
   Vector<Double> weights; // vector of weights
   Vector<Double> gradients; // gradients with respect to weights
   Vector<Double> momentum;
   Vector<AbstractNeuron> parents; // references to parent neurons
 
   // class methods
-  public NeuronP(AbstractNeuron identity_) {
+  public OutputNeuronP(AbstractNeuron identity_) {
     this();
     addParent(identity_);
+    name = "OutputNeuron";
   }
 
-    public NeuronP() {
+  public OutputNeuronP() {
     numChildren = 0;
     deltaUpdates = 0;
-    gradUpdates = 0;
-    delta = 0.;
-    batchUpdate = 30; // fixed for now
+    batchUpdate = 30;
     momentumRate = 0.2;
     viscosity = 0.;
     weights = new Vector<Double>();
@@ -37,16 +36,17 @@ public class NeuronP extends AbstractNeuron {
     gradients = new Vector<Double>();
     momentum = new Vector<Double>();
     valueKnown = false;
-    name = "Neuron";
+    name = "OutputNeuron";
   }
 
   private Double activation(Double argument_) {
     return Math.tanh(argument_);
-    // return 1. / ( 1 + Math.exp(-1. * argument_)); // for sigmoidal act. function
+    // return 2. / ( 1 + Math.exp(-1. * argument_)) - 1; // for sigmoidal act. function
   }
 
   public Double getDeriv() {
-    return 1 - value * value; // for tanh
+    return 1 - value * value;
+    // return 2 * value * (1 - value); // for sigmoidal activation function
   }
 
   @Override
@@ -134,9 +134,14 @@ public class NeuronP extends AbstractNeuron {
    */
   public void updateWeights(Double learningRate_) {
     if (gradUpdates == batchUpdate) {
-      for (int i = 0; i < weights.size(); ++i) { // adding momentum to the gradient
-        momentum.set(i, viscosity * momentum.get(i) + gradients.get(i) / batchUpdate);
+      for (int i = 0; i < weights.size(); ++i) {
+        momentum.set(i, viscosity * momentum.get(i) + gradients.get(i) / gradUpdates);
         weights.set(i, weights.get(i) - learningRate_ * momentum.get(i));
+
+        // momentum.set(i, momentum.get(i) + momentumRate * gradients.get(i) * 
+        //   learningRate_ / gradUpdates); // update the cumulative momentum every iteration
+        // weights.set(i, weights.get(i) - momentum.get(i) - 
+        //   gradients.get(i) * learningRate_ / gradUpdates);
       }
       gradUpdates = 0;
       resetGradients();
@@ -149,8 +154,25 @@ public class NeuronP extends AbstractNeuron {
     }
   }
 
+  @Override
+  public void initialize() {}
+
+  @Override
+  public void mutate(Double amplitude_) {} // for Genetic Agl
+
+  @Override
+  public void updateGradients(Double feedBack_) {
+    // delta = feedBack_ * getDeriv();
+    gradUpdates++;
+    delta = (value - feedBack_) * getDeriv();
+    for (int i = 0; i < parents.size(); ++i) {
+      gradients.set(i, gradients.get(i) + delta * parents.get(i).getValue());
+    }
+  }
+
+
+
   private void reduceMomentum(Double factor_) {
-    System.out.println("I should not be called");
     for (int i = 0; i < momentum.size(); ++i) {
       momentum.set(i, momentum.get(i) / factor_);
     }
@@ -161,27 +183,6 @@ public class NeuronP extends AbstractNeuron {
     reduceMomentum(value_);
   }
 
-  @Override
-  public void initialize() {}
-
-  @Override
-  public void mutate(Double amplitude_) {} // for Genetic Agl
-
-  @Override
-  public void updateGradients(Double feedBack_) {
-    delta += feedBack_;
-    deltaUpdates++;
-    if (deltaUpdates == numChildren) {
-      deltaUpdates = 0; // make sure that identity is not an issue
-      delta = delta * getDeriv();
-      for (int i = 0; i < gradients.size(); ++i) {
-        gradients.set(i, gradients.get(i) + delta * parents.get(i).getValue());
-      }
-      gradUpdates++;
-    }
-  }
-
-
   /**
    * Propagates the gradients for weights in the network
    */
@@ -190,7 +191,6 @@ public class NeuronP extends AbstractNeuron {
     for(int i = 0; i < parents.size(); ++i) {
       parents.get(i).updateGradients(delta * weights.get(i));
     }
-    delta = 0.;
   }
 
   private void computeValue() {
